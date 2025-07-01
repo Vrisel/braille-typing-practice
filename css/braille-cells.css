@@ -1,0 +1,23 @@
+.braille-cells {
+	--magnification: 0.8;
+	--unit: calc(5vmin * var(--magnification));
+	border-collapse: collapse;
+	margin-inline: auto;
+}
+
+.braille-cells td {
+	padding-inline: calc(var(--unit, 4.5vmin) * 0.45);
+}
+
+.braille-cells :is(th, td) {
+	border: 1px solid;
+}
+
+.braille-cells td > input[type="checkbox"] {
+	width: calc(var(--unit, 4.5vmin) * 1.5);
+	height: calc(var(--unit, 4.5vmin) * 1.5);
+	margin: calc(var(--unit, 4.5vmin) * 0.4);
+	
+	&:is(:first-child, br+input) {}
+	&:is(:last-child, input+br) {}
+}

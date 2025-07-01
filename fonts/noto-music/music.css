@@ -1,0 +1,11 @@
+@font-face {
+ font-family: "Noto Music";
+ src: url("NotoMusic-Regular.ttf");
+ font-display: swap;
+}
+
+.noto-music-regular {
+  font-family: "Noto Music", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

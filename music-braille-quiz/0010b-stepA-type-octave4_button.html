@@ -1,0 +1,146 @@
+<!doctype HTML>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/bootstrap-like.css"/>
+<link rel="stylesheet" href="../css/braille-cells.css"/>
+<link rel="stylesheet" href="../fonts/noto-music/music.css"/>
+<style>
+.keyboard button {
+	border: 1px solid black;
+	padding-inline: 0.25em;
+	text-align: center;
+	
+	&:not([disabled]) {
+		background-color: white;
+		color: black;
+	}
+}
+.noto-music-regular button {
+	font-family: inherit;
+}
+button.correct {
+	background-color: rgba(0, 255, 0, 0.2)!important;
+	border-color: green!important;
+	&:not([disabled]) {
+		color: green!important;
+	}
+}
+button.wrong {
+	background-color: rgba(255, 0, 0, 0.2)!important;
+	border-color: red!important;
+	color: red!important;
+}
+</style>
+
+<body>
+<div id="osmd" class="mx-auto"></div>
+
+<div id="score" hidden>
+<?xml version="1.0"?>
+<score-partwise version="4.0">
+	<work>
+		<work-title id="work-title">음악 점자 연습</work-title>
+	</work>
+		
+	<part-list>
+		<score-part id="p1">
+			<part-name print-object="no"></part-name>
+		</score-part>
+	</part-list>
+		
+	<part id="p1">
+		<measure number="1">
+			<attributes>
+				<key>
+					<fifths id="fifths">0</fifths>
+					<mode id="mode">major</mode>
+				</key>
+				<clef>
+					<sign>G</sign>
+					<clef-octave-change id="clef-octave">0</clef-octave-change>
+				</clef>
+				<divisions>32</divisions>
+				<time print-object="no">
+					<beats>1</beats>
+					<beat-type>8</beat-type>
+				</time>
+			</attributes>
+			<note>
+				<pitch>
+					<step id="step">C</step>
+					<octave id="octave">4</octave>
+					<alter id="alter">0</alter>
+				</pitch>
+				<duration id="duration">16</duration>
+				<type id="note-type">eighth</type>
+			</note>
+
+			<barline location="right">
+				<bar-style>light-heavy</bar-style>
+			</barline>
+		</measure>
+	</part>
+</score-partwise>
+</div>
+
+<div class="text-center keyboard noto-music-regular">
+<button class="fs-xlg" onclick="answerByButton(this)">&#x283D;<br/>&#x1D15D;<br/>&#x1D161;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x281D;<br/>&#x1D15E;<br/>&#x1D162;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2839;<br/>&#x1D15F;<br/>&#x1D163;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2819;<br/>&#x1D160;<br/>&#x1D164;</button>
+</div>
+
+<div class="text-center keyboard noto-music-regular">
+<button class="fs-xlg" onclick="answerByButton(this)">&#x283D;<br/>&#x1D15D;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x281D;<br/>&#x1D15E;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2839;<br/>&#x1D15F;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2819;<br/>&#x1D160;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x283D;<br/>&#x1D161;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x281D;<br/>&#x1D162;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2839;<br/>&#x1D163;</button>
+<button class="fs-xlg" onclick="answerByButton(this)">&#x2819;<br/>&#x1D164;</button>
+</div>
+
+<div id="result" class="text-center fs-xlg md-1" hidden>
+<span id="user-answer" style="color: red;"></span><span id="right-answer"></span> <span id="literal"></span>
+</div>
+
+
+<script src="../js/opensheetmusicdisplay.min.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/note.js"></script>
+<script src="../js/braille-cells.js"></script>
+<script>
+const note = Note.getRandom(
+	noteType = true,
+	step = false,
+	alter = false,
+	octave = false
+);
+note.step = 'C';
+setTexts(note);
+setText('beat-type', Note.TYPE_DICT[note.noteType]);
+
+const rightAnswer = Note.inBraille_stepAndType(note);
+</script>
+<script>
+function answerByButton(self) {
+	let isRight = self.innerText[0] == rightAnswer;
+	for (const btn of self.parentNode.children) {
+		if (btn == self) continue;
+		btn.disabled = true;
+		if (btn.innerText[0] == rightAnswer) btn.classList.add('correct');
+	}
+	self.classList.add(isRight ? 'correct' : 'wrong')
+	self.innerText = self.innerText.slice(0,2)+'\n⟳';
+	self.onclick = () => location.reload();
+}
+</script>
+<script>
+const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmd");
+const score = sel('#score');
+
+osmd.load(score).then(() => osmd.render());
+</script>

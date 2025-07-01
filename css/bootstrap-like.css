@@ -1,0 +1,23 @@
+.text-center {
+	text-align: center;
+}
+
+.d-none {
+	display: none;
+}
+
+.fs-xxsm { font-size: xx-small; }
+.fs-xsm { font-size: x-small; }
+.fs-sm { font-size: small; }
+.fs-md { font-size: medium; }
+.fs-lg { font-size: large; }
+.fs-xlg { font-size: x-large; }
+.fs-xxlg { font-size: xx-large; }
+.fs-smer { font-size: smaller; }
+.fs-lger { font-size: larger; }
+.fw-bold { font-weight: bold; }
+
+.mx-auto { margin-inline: auto; }
+.md-1 { margin-block-end: 1em; }
+.md-3 { margin-block-end: 3em; }
+.mu-3 { margin-block-start: 3em; }

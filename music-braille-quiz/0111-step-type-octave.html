@@ -1,0 +1,111 @@
+<!doctype HTML>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/bootstrap-like.css"/>
+<link rel="stylesheet" href="../css/braille-cells.css"/>
+
+<body>
+<div id="osmd" class="mx-auto"></div>
+
+<div id="score" hidden>
+<?xml version="1.0"?>
+<score-partwise version="4.0">
+	<work>
+		<work-title id="work-title">음악 점자 연습</work-title>
+	</work>
+		
+	<part-list>
+		<score-part id="p1">
+			<part-name print-object="no"></part-name>
+		</score-part>
+	</part-list>
+		
+	<part id="p1">
+		<measure number="1">
+			<attributes>
+				<key>
+					<fifths id="fifths">0</fifths>
+					<mode id="mode">major</mode>
+				</key>
+				<clef>
+					<sign id="clef">G</sign>
+					<clef-octave-change id="clef-octave">0</clef-octave-change>
+				</clef>
+				<divisions>32</divisions>
+				<time print-object="no">
+					<beats>1</beats>
+					<beat-type>4</beat-type>
+				</time>
+			</attributes>
+			<note>
+				<pitch>
+					<step id="step">C</step>
+					<octave id="octave">8</octave>
+					<alter id="alter">0</alter>
+				</pitch>
+				<duration id="duration">16</duration>
+				<type id="note-type">eighth</type>
+			</note>
+
+			<barline location="right">
+				<bar-style>light-heavy</bar-style>
+			</barline>
+		</measure>
+	</part>
+</score-partwise>
+</div>
+
+<div class="text-center">
+<table class="braille-cells md-1">
+<thead><tr class="fw-bold">
+<th>길표
+<th>음표
+
+<tbody>
+<tr>
+<td>
+<input type="checkbox" disabled/><input type="checkbox"/></br>
+<input type="checkbox" disabled/><input type="checkbox"/></br>
+<input type="checkbox" disabled/><input type="checkbox"/>
+</td>
+
+<td>
+<input type="checkbox"/><input type="checkbox"/></br>
+<input type="checkbox"/><input type="checkbox"/></br>
+<input type="checkbox"/><input type="checkbox"/>
+</td>
+</table>
+
+<div id="result" class="text-center fs-xlg md-1" hidden>
+<span id="user-answer" style="color: red;"></span><span id="right-answer"></span> <span id="literal"></span>
+</div>
+
+<button id="button" class="fs-lg fw-bold" onclick="button_onClick(this);">정답 확인</button>
+</div>
+
+<script src="../js/opensheetmusicdisplay.min.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/note.js"></script>
+<script src="../js/braille-cells.js"></script>
+<script>
+const note = Note.getRandom(
+	noteType = true,
+	step = true,
+	alter = false,
+	octave = true
+);
+setTexts(note);
+setText('beat-type', Note.TYPE_DICT[note.noteType]);
+
+const rightAnswer = note.inBraille;
+setText('#right-answer', rightAnswer);
+setText('#literal', `(${note.inLiteral})`);
+</script>
+<script>
+const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmd");
+const score = sel('#score');
+
+osmd.load(score).then(() => osmd.render());
+</script>
